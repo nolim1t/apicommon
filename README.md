@@ -5,6 +5,8 @@ General Utilities thats needed to roll your own API with invite codes, api key g
 
 Use of this code is at your own risk. It may help you it may not
 
+Plays nicely with nolim1t/node-mongo-with-heroku
+
 How I use it
 ---------
 
