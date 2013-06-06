@@ -18,13 +18,14 @@ module.exports = {
 						if keyArr.length == 1
 							requesthistorycoll.find({apikey: info.apikey}).toArray (rlErr, rlArr) ->
 								if not rlErr
-									if rlArr.length < keyArr[0].limit
+									if rlArr.length <= keyArr[0].limit
 										# Must have less requests. Then log a request asynchronously
 										requesthistorycoll.save {apikey: info.apikey, expiry: new Date(now * 1000)}, (historyerr, historycb) -> console.log historycb
 										# Refresh API key because its used
 										apikeycoll.update query, {$set: {expiry: new Date(newexpiry * 1000)}}, (updateErr, updateSuccess) -> console.log updateSuccess
 										# After logging request then  say its ok
-										callback({meta: {code: 200, msg: 'OK'}})
+										requests_remaining = parseInt(keyArr[0].limit) - rlArr.length
+										callback({meta: {code: 200, msg: 'OK'}, data: {requests_remaining: requests_remaining}})
 									else
 										# Rate limit exceeded
 										callback({meta: {code: 429, msg: 'Rate limit exceeded'}})
