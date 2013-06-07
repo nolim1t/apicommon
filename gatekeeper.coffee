@@ -26,7 +26,7 @@ module.exports = {
 										apikeycoll.update query, {$set: {expiry: new Date(newexpiry * 1000)}}, (updateErr, updateSuccess) -> console.log updateSuccess
 										# After logging request then  say its ok
 										requests_remaining = parseInt(keyArr[0].limit) - rlArr.length
-										callback({meta: {code: 200, msg: 'OK'}, data: {requests_remaining: requests_remaining}})
+										callback({meta: {code: 200, msg: 'OK'}, data: {requests_remaining: requests_remaining, owner: keyArr[0].owner}})
 									else
 										# Rate limit exceeded
 										callback({meta: {code: 429, msg: 'Rate limit exceeded'}})
