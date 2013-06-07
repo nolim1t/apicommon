@@ -9,7 +9,8 @@ module.exports = {
 				requesthistorycoll = db.collection("apikeyrequests")
 				requesthistorycoll.ensureIndex({expiry: 1}, {expireAfterSeconds: 60})
 				now = Math.round(new Date().getTime() / 1000)
-				newexpiry = Math.round(new Date().getTime() / 1000) + 604800
+				apikeyttl = process.env.APIKEYTTL || 60
+				newexpiry = Math.round(new Date().getTime() / 1000) + parseInt(apikeyttl)
 				query = {
 					apikey: info.apikey
 				}

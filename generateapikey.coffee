@@ -10,11 +10,15 @@ module.exports = {
 				randomentropystring (cb) -> 
 					key = cb.string
 					# defaultexpiry
-					expiryts = Math.round(new Date().getTime() / 1000) + 604800
+					apikeyttl = process.env.APIKEYTTL || 60
+					ratelimit = process.env.DEFAULTRATE || info.ratelimit || 1
+					expiryts = Math.round(new Date().getTime() / 1000) + parseInt(apikeyttl)
+					console.log expiryts
+
 					to_insert = {
 						owner: {identifier: info.identifier},
 						apikey: key,
-						limit: 60,
+						limit: parseInt(ratelimit),
 						expiry: new Date(expiryts * 1000)
 					}
 					collection.save to_insert, (akerr, akcreated) ->
