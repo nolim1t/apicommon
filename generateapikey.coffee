@@ -3,7 +3,7 @@ randomentropystring = require('../randomstring.coffee').string
 
 module.exports = {
 	create: (info, callback) ->
-		if info.identifier != undefined
+		if info.identifier != undefined and info.metadata != undefined
 			mongo.dbhandler (db) ->
 				collection = db.collection("apikeys")
 				collection.ensureIndex({expiry: 1}, {expireAfterSeconds: 60})
@@ -16,7 +16,7 @@ module.exports = {
 					console.log expiryts
 
 					to_insert = {
-						owner: {identifier: info.identifier},
+						owner: {identifier: info.identifier, metadata: info.metadata},
 						apikey: key,
 						limit: parseInt(ratelimit),
 						expiry: new Date(expiryts * 1000)
