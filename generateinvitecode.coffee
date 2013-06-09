@@ -8,7 +8,10 @@ module.exports = {
 				collection = db.collection("invitecodes")
 				randomentropystring (str) ->
 					random_invite_code = str.string.substr(0, 10)
-					collection.save {invitecode: random_invite_code, email: info.email}, (cberr, cbres) ->
+					stuff_to_insert = {invitecode: random_invite_code, email: info.email}
+					if info.metadata != undefined
+						stuff_to_insert.metadata = info.metadata
+					collection.save stuff_to_insert, (cberr, cbres) ->
 						if not cberr
 							callback({meta: {code: 200, msg: 'Success'}, data:cbres})
 						else
